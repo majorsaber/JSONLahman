@@ -12,7 +12,7 @@ import java.sql.Statement;
 import org.apache.commons.io.FileUtils;
 
 public class Mapper {
-	private enum Table { BATTING, PITCHING, APPEARANCES, TEAMS};
+	private enum Table { BATTING, PITCHING, APPEARANCES, TEAMS, MASTER};
 	private static String baseLocalURL;
 	private static void print(String s) {
 		System.out.println(s);
@@ -21,9 +21,10 @@ public class Mapper {
 	public static void main(String[] args) {
 		if (args.length == 0) {
 			baseLocalURL = System.getProperty("user.dir")+"\\out";
+			print("No output directory specified, using " + baseLocalURL);
 		}
 		else if (args.length != 1) {
-			print("Invalid number of arguments\njava -jar Downloader.jar \"OUT_DIR\"");
+			print("Invalid number of arguments\njava -jar Mapper.jar \"OUT_DIR\"");
 			return;
 		}
 		else {
@@ -48,6 +49,8 @@ public class Mapper {
 			sb.append("{\"appearances\":[");
 		} else if (table == Table.TEAMS) {
 			sb.append("{\"teams\":[");
+		} else if (table == Table.MASTER) {
+			sb.append("{\"players\":[");
 		}
 		int i = 0;
 		while(res.next()) {
@@ -71,6 +74,8 @@ public class Mapper {
 				sb.append("{\"appearance\":{");
 			} else if (table == Table.TEAMS) {
 				sb.append("{\"team\":{");
+			} else if (table == Table.MASTER) {
+				sb.append("{\"player\":{");
 			}
 			for (int j = 2; j <= numCols; j++) {
 				if (j > 1) {
@@ -91,15 +96,35 @@ public class Mapper {
 	}
 	
 	private void map() {
-		
 		try {
 			DriverManager.registerDriver(new org.apache.derby.jdbc.EmbeddedDriver());
-			String dbURL = "jdbc:derby:db/master;create=true";
-			Connection conn = DriverManager.getConnection(dbURL);
+		} catch (SQLException e1) {
+			print("Could not register JDBC driver.");
+			return;
+		}
+		Connection conn = null;
+		//if we're running from the bin directory, db is one level up
+		String dbURL = "jdbc:derby:../db/master;create=false";
+		try {
+			conn = DriverManager.getConnection(dbURL);
+		} catch (SQLException e1) {
+			//dirty code to just retry if running in debug mode
+			dbURL = "jdbc:derby:db/master;create=false";
+			try {
+				conn = DriverManager.getConnection(dbURL);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		try {
 			Statement stmt = conn.createStatement();
-			for (int year = 1955; year <= 2015; year++) {
-				ResultSet res = stmt.executeQuery("SELECT * FROM BATTING WHERE YEARID=" + year);
-				File file = new File(baseLocalURL+"\\"+year+"\\batting.json");
+			ResultSet res = stmt.executeQuery("SELECT * FROM MASTER");
+			File file = new File(baseLocalURL+"\\master.json");
+			writeTableToFile(res, file, Table.MASTER);
+			for (int year = 1871; year <= 2015; year++) {
+				res = stmt.executeQuery("SELECT * FROM BATTING WHERE YEARID=" + year);
+				file = new File(baseLocalURL+"\\"+year+"\\batting.json");
 				writeTableToFile(res, file, Table.BATTING);
 				res.close();	
 				res = stmt.executeQuery("SELECT * FROM PITCHING WHERE YEARID=" + year);
@@ -117,9 +142,11 @@ public class Mapper {
 				res = stmt.executeQuery("SELECT * FROM APPEARANCES WHERE YEARID=" + year);
 				file = new File(baseLocalURL+"\\"+year+"\\appearances.json");
 				writeTableToFile(res, file, Table.APPEARANCES);
+				res.close();
 				res = stmt.executeQuery("SELECT * FROM TEAMS WHERE YEARID=" + year);
 				file = new File(baseLocalURL+"\\"+year+"\\teams.json");
 				writeTableToFile(res, file, Table.TEAMS);
+				res.close();
 			}
 			stmt.close();
 			conn.close();
