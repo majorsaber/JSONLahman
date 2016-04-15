@@ -8,3 +8,7 @@ Pitching
 PitchingPost
 Appearances
 Teams
+
+If you have Java installed, navigate to the /bin folder in your command prompt and run:
+java -jar Mapper.jar
+NOTE: This only works on Windows
