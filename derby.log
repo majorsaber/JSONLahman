@@ -1,4 +1,4 @@
-Fri Apr 15 01:03:02 EDT 2016 Thread[main,5,main] Cleanup action starting
+Mon Apr 18 22:41:36 EDT 2016 Thread[main,5,main] Cleanup action starting
 java.sql.SQLException: Database '../db/master' not found.
 	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
 	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
@@ -16,8 +16,8 @@ java.sql.SQLException: Database '../db/master' not found.
 	at org.apache.derby.jdbc.AutoloadedDriver.connect(Unknown Source)
 	at java.sql.DriverManager.getConnection(Unknown Source)
 	at java.sql.DriverManager.getConnection(Unknown Source)
-	at mapper.Mapper.map(Mapper.java:109)
-	at mapper.Mapper.main(Mapper.java:34)
+	at mapper.Mapper.map(Mapper.java:120)
+	at mapper.Mapper.main(Mapper.java:35)
 Caused by: ERROR XJ004: Database '../db/master' not found.
 	at org.apache.derby.iapi.error.StandardException.newException(Unknown Source)
 	at org.apache.derby.impl.jdbc.SQLExceptionFactory.wrapArgsForTransportAcrossDRDA(Unknown Source)
@@ -42,11 +42,11 @@ ERROR XJ004: Database '../db/master' not found.
 	at org.apache.derby.jdbc.AutoloadedDriver.connect(Unknown Source)
 	at java.sql.DriverManager.getConnection(Unknown Source)
 	at java.sql.DriverManager.getConnection(Unknown Source)
-	at mapper.Mapper.map(Mapper.java:109)
-	at mapper.Mapper.main(Mapper.java:34)
+	at mapper.Mapper.map(Mapper.java:120)
+	at mapper.Mapper.main(Mapper.java:35)
 ============= end nested exception, level (1) ===========
 Cleanup action completed
-Fri Apr 15 01:03:02 EDT 2016 Thread[main,5,main] Cleanup action starting
+Mon Apr 18 22:41:36 EDT 2016 Thread[main,5,main] Cleanup action starting
 java.sql.SQLException: Database '../db/master' not found.
 	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
 	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
@@ -64,8 +64,8 @@ java.sql.SQLException: Database '../db/master' not found.
 	at org.apache.derby.jdbc.EmbeddedDriver.connect(Unknown Source)
 	at java.sql.DriverManager.getConnection(Unknown Source)
 	at java.sql.DriverManager.getConnection(Unknown Source)
-	at mapper.Mapper.map(Mapper.java:109)
-	at mapper.Mapper.main(Mapper.java:34)
+	at mapper.Mapper.map(Mapper.java:120)
+	at mapper.Mapper.main(Mapper.java:35)
 Caused by: ERROR XJ004: Database '../db/master' not found.
 	at org.apache.derby.iapi.error.StandardException.newException(Unknown Source)
 	at org.apache.derby.impl.jdbc.SQLExceptionFactory.wrapArgsForTransportAcrossDRDA(Unknown Source)
@@ -90,13 +90,13 @@ ERROR XJ004: Database '../db/master' not found.
 	at org.apache.derby.jdbc.EmbeddedDriver.connect(Unknown Source)
 	at java.sql.DriverManager.getConnection(Unknown Source)
 	at java.sql.DriverManager.getConnection(Unknown Source)
-	at mapper.Mapper.map(Mapper.java:109)
-	at mapper.Mapper.main(Mapper.java:34)
+	at mapper.Mapper.map(Mapper.java:120)
+	at mapper.Mapper.main(Mapper.java:35)
 ============= end nested exception, level (1) ===========
 Cleanup action completed
 ----------------------------------------------------------------
-Fri Apr 15 01:03:02 EDT 2016:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): instance a816c00e-0154-184d-0a51-0000071c3958 
+Mon Apr 18 22:41:36 EDT 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): instance a816c00e-0154-2c64-fd83-0000071c3930 
 on database directory C:\Users\sunny\Documents\PitchFX\JSONLahman\db\master with class loader sun.misc.Launcher$AppClassLoader@4e0e2f2a 
 Loaded from file:/C:/Users/sunny/Documents/PitchFX/JSONLahman/lib/derby.jar
 java.vendor=Oracle Corporation

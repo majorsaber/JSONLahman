@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 
 import org.apache.commons.io.FileUtils;
 
@@ -77,12 +78,22 @@ public class Mapper {
 			} else if (table == Table.MASTER) {
 				sb.append("{\"player\":{");
 			}
-			for (int j = 2; j <= numCols; j++) {
+			for (int j = 1; j <= numCols; j++) {
 				if (j > 1) {
 					sb.append(",");
 				}
 				sb.append("\""+resMeta.getColumnName(j)+"\":");
-				sb.append("\""+res.getString(j)+"\"");
+				int type = resMeta.getColumnType(j);
+				if (type == Types.INTEGER) {
+					int val = res.getInt(j);
+					sb.append(val==-1?"null":val);
+				} else if (type == Types.DOUBLE){
+					double d = res.getDouble(j);
+					sb.append(d==-1?"null":d);
+				} else {
+					String s = res.getString(j);
+					sb.append(s.isEmpty()?"null":"\""+res.getString(j)+"\"");
+				}
 			}
 			sb.append("}}");
 		}
