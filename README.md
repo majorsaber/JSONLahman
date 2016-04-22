@@ -17,7 +17,7 @@ Appearances
 Teams
 
 
-If you *do not hava Java installed*:
+If you **do not hava Java installed**:
 
 1. https://java.com/en/download/manual.jsp
  
