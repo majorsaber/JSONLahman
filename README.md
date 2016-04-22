@@ -17,6 +17,11 @@ Appearances
 Teams
 
 
+If you *do not hava Java installed*:
+
+1. https://java.com/en/download/manual.jsp
+ 
+
 If you have Java installed and use Windows:
 
 1. Open command prompt (Windows+R "cmd"+Enter)
