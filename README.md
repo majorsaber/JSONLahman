@@ -18,6 +18,7 @@ Teams
 
 
 If you have Java installed and use Windows:
+
 1. Open command prompt (Windows+R "cmd"+Enter)
 
 2. navigate to JSONLahman/bin
