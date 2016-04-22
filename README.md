@@ -17,6 +17,9 @@ Appearances
 Teams
 
 
-If you have Java installed, navigate to the /bin folder in your command prompt and run:
-java -jar Mapper.jar
-NOTE: This only works on Windows
+If you have Java installed and use Windows:
+1. Open command prompt (Windows+R "cmd"+Enter)
+2. navigate to the /bin folder of the JSONLahman folder
+3. java -jar Mapper.jar
+
+That will generate the .json files in the /out folder inside the JSONLahman folder
