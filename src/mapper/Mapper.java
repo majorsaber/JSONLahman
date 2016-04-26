@@ -43,15 +43,15 @@ public class Mapper {
 		int numCols = resMeta.getColumnCount();
 		StringBuilder sb = new StringBuilder();
 		if (table == Table.BATTING) {
-			sb.append("{\"batters\":[");	
+			sb.append("{\"batter\":[");	
 		} else if (table == Table.PITCHING) {
-			sb.append("{\"pitchers\":[");
+			sb.append("{\"pitcher\":[");
 		} else if (table == Table.APPEARANCES) {
-			sb.append("{\"appearances\":[");
+			sb.append("{\"appearance\":[");
 		} else if (table == Table.TEAMS) {
-			sb.append("{\"teams\":[");
+			sb.append("{\"team\":[");
 		} else if (table == Table.MASTER) {
-			sb.append("{\"players\":[");
+			sb.append("{\"player\":[");
 		}
 		int i = 0;
 		while(res.next()) {
@@ -67,17 +67,7 @@ public class Mapper {
 				}
 				sb.setLength(0);
 			}
-			if (table == Table.BATTING) {
-				sb.append("{\"batter\":{");	
-			} else if (table == Table.PITCHING) {
-				sb.append("{\"pitcher\":{");
-			} else if (table == Table.APPEARANCES) {
-				sb.append("{\"appearance\":{");
-			} else if (table == Table.TEAMS) {
-				sb.append("{\"team\":{");
-			} else if (table == Table.MASTER) {
-				sb.append("{\"player\":{");
-			}
+			sb.append("{");
 			for (int j = 1; j <= numCols; j++) {
 				if (j > 1) {
 					sb.append(",");
@@ -95,9 +85,9 @@ public class Mapper {
 					sb.append(s.isEmpty()?"null":"\""+res.getString(j)+"\"");
 				}
 			}
-			sb.append("}}");
+			sb.append("}");
 		}
-		sb.append("]");
+		sb.append("]}");
 		try {
 			FileUtils.writeStringToFile(file, sb.toString(), true);
 		} catch (IOException e) {
