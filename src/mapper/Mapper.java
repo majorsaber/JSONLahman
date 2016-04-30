@@ -11,6 +11,7 @@ import java.sql.Statement;
 import java.sql.Types;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.SystemUtils;
 
 public class Mapper {
 	private enum Table { BATTING, PITCHING, APPEARANCES, TEAMS, MASTER};
@@ -21,8 +22,8 @@ public class Mapper {
 	public Mapper() {}
 	public static void main(String[] args) {
 		if (args.length == 0) {
-			baseLocalURL = System.getProperty("user.dir")+"\\out";
-			print("No output directory specified, using " + baseLocalURL);
+			baseLocalURL = getOSPath(System.getProperty("user.dir")+"\\out");
+			print("No directory specified, output can be found at:\n" + baseLocalURL);
 		}
 		else if (args.length != 1) {
 			print("Invalid number of arguments\njava -jar Mapper.jar \"OUT_DIR\"");
@@ -30,6 +31,7 @@ public class Mapper {
 		}
 		else {
 			baseLocalURL = args[0];
+			print("Output can be found at:\n" + baseLocalURL);
 		}
 		Mapper mapper = new Mapper();
 		mapper.map();
@@ -121,31 +123,31 @@ public class Mapper {
 		try {
 			Statement stmt = conn.createStatement();
 			ResultSet res = stmt.executeQuery("SELECT * FROM MASTER");
-			File file = new File(baseLocalURL+"\\master.json");
+			File file = new File(getOSPath(baseLocalURL+"\\master.json"));
 			writeTableToFile(res, file, Table.MASTER);
 			for (int year = 1871; year <= 2015; year++) {
 				res = stmt.executeQuery("SELECT * FROM BATTING WHERE YEARID=" + year);
-				file = new File(baseLocalURL+"\\"+year+"\\batting.json");
+				file = new File(getOSPath(baseLocalURL+"\\"+year+"\\batting.json"));
 				writeTableToFile(res, file, Table.BATTING);
 				res.close();	
 				res = stmt.executeQuery("SELECT * FROM PITCHING WHERE YEARID=" + year);
-				file = new File(baseLocalURL+"\\"+year+"\\pitching.json");
+				file = new File(getOSPath(baseLocalURL+"\\"+year+"\\pitching.json"));
 				writeTableToFile(res, file, Table.PITCHING);
 				res.close();
 				res = stmt.executeQuery("SELECT * FROM BATTINGPOST WHERE YEARID=" + year);
-				file = new File(baseLocalURL+"\\"+year+"\\battingpost.json");
+				file = new File(getOSPath(baseLocalURL+"\\"+year+"\\battingpost.json"));
 				writeTableToFile(res, file, Table.BATTING);
 				res.close();	
 				res = stmt.executeQuery("SELECT * FROM PITCHINGPOST WHERE YEARID=" + year);
-				file = new File(baseLocalURL+"\\"+year+"\\pitchingpost.json");
+				file = new File(getOSPath(baseLocalURL+"\\"+year+"\\pitchingpost.json"));
 				writeTableToFile(res, file, Table.PITCHING);
 				res.close();
 				res = stmt.executeQuery("SELECT * FROM APPEARANCES WHERE YEARID=" + year);
-				file = new File(baseLocalURL+"\\"+year+"\\appearances.json");
+				file = new File(getOSPath(baseLocalURL+"\\"+year+"\\appearances.json"));
 				writeTableToFile(res, file, Table.APPEARANCES);
 				res.close();
 				res = stmt.executeQuery("SELECT * FROM TEAMS WHERE YEARID=" + year);
-				file = new File(baseLocalURL+"\\"+year+"\\teams.json");
+				file = new File(getOSPath(baseLocalURL+"\\"+year+"\\teams.json"));
 				writeTableToFile(res, file, Table.TEAMS);
 				res.close();
 			}
@@ -156,5 +158,10 @@ public class Mapper {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	private static String getOSPath(String path) {
+		if (SystemUtils.IS_OS_MAC) return path.replaceAll("\\", "/");
+		else return path;
 	}
 }
